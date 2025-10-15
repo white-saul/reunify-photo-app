@@ -7,6 +7,14 @@ import GeneratingFrame from './GeneratingFrame';
 import { REUNION_STYLES } from '../constants';
 import { generateReunionPhoto } from '../services/geminiService';
 
+const WarningIcon: React.FC = () => (
+    <svg className="w-5 h-5 flex-shrink-0 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.21 3.03-1.742 3.03H4.42c-1.532 0-2.492-1.696-1.742-3.03l5.58-9.92zM10 13a1 1 0 110-2 1 1 0 010 2zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd"></path></svg>
+);
+
+const ErrorIcon: React.FC = () => (
+    <svg className="w-5 h-5 flex-shrink-0 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"></path></svg>
+);
+
 const MainTool: React.FC = () => {
   const [oldPhoto, setOldPhoto] = useState<File | null>(null);
   const [newPhoto, setNewPhoto] = useState<File | null>(null);
@@ -44,6 +52,8 @@ const MainTool: React.FC = () => {
     }
   }, [oldPhoto, newPhoto, selectedStyle]);
 
+  const isQuotaError = error && error.includes("high demand");
+
   return (
     <section id="main_tool" className="text-center">
       <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
@@ -59,7 +69,14 @@ const MainTool: React.FC = () => {
           <FileUpload label="Recent Photo" onFileSelect={setNewPhoto} overlayEffect={selectedStyle === 'Mirror Reflection' ? 'mirror' : undefined} />
         </div>
         
-        {error && <div className="text-red-500 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-600 rounded-lg p-3 text-sm">{error}</div>}
+        {error && <div className={`flex items-center p-3 text-sm rounded-lg border ${
+            isQuotaError
+                ? 'text-yellow-700 bg-yellow-100 dark:text-yellow-300 dark:bg-yellow-900/30 border-yellow-400 dark:border-yellow-600'
+                : 'text-red-700 bg-red-100 dark:text-red-300 dark:bg-red-900/30 border-red-400 dark:border-red-600'
+        }`} role="alert">
+            {isQuotaError ? <WarningIcon /> : <ErrorIcon />}
+            {error}
+        </div>}
         
         <StyleSelector
           styles={REUNION_STYLES}
