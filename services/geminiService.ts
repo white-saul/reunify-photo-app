@@ -2,8 +2,7 @@
 import { GoogleGenAI, Modality } from "@google/genai";
 import { fileToBase64 } from '../utils/fileUtils';
 
-// FIX: Per coding guidelines, the API key must be obtained from `process.env.API_KEY`.
-// This resolves the TypeScript error `Property 'env' does not exist on type 'ImportMeta'`.
+// Fix: Per coding guidelines, API key must be retrieved from process.env.API_KEY. This also resolves the TypeScript error on import.meta.env.
 const apiKey = process.env.API_KEY;
 
 if (!apiKey) {
