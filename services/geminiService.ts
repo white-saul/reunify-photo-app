@@ -1,10 +1,13 @@
-
 import { GoogleGenAI, Modality } from "@google/genai";
 import { fileToBase64 } from '../utils/fileUtils';
 
-// The API key is obtained exclusively from the environment variable `process.env.API_KEY`.
-// It is assumed to be pre-configured and available in the execution context.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// The API key is obtained exclusively from the environment variable.
+// FIX: Use process.env.API_KEY as per the guidelines to resolve the TypeScript error.
+const apiKey = process.env.API_KEY;
+if (!apiKey) {
+  throw new Error("API_KEY is not defined. Please set it in your environment variables.");
+}
+const ai = new GoogleGenAI({ apiKey });
 
 interface ReunionPhotoParams {
   oldPhoto: File;
@@ -93,7 +96,9 @@ Visual tone:
   } catch (error) {
     console.error("Error generating reunion photo:", error);
     if (error instanceof Error) {
-        throw new Error(`Failed to generate photo: ${error.message}`);
+        // Extracting a cleaner error message if possible
+        const errorDetails = (error as any).cause?.error?.message || error.message;
+        throw new Error(`Failed to generate photo: ${errorDetails}`);
     }
     throw new Error("An unknown error occurred during photo generation.");
   }
