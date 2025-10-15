@@ -1,8 +1,10 @@
+
 import { GoogleGenAI, Modality } from "@google/genai";
 import { fileToBase64 } from '../utils/fileUtils';
 
-// Per coding guidelines, API key must be retrieved directly from process.env.API_KEY.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// API key is retrieved from the environment variable specified by the user's setup.
+const apiKey = process.env.GEMINI_API_KEY;
+const ai = new GoogleGenAI({ apiKey });
 
 interface ReunionPhotoParams {
   oldPhoto: File;
@@ -16,7 +18,7 @@ export const generateReunionPhoto = async ({
   style,
 }: ReunionPhotoParams): Promise<string> => {
   // Add a check here to provide a more user-friendly error if the key is missing.
-  if (!process.env.API_KEY) {
+  if (!apiKey) {
     // This message is user-facing via the UI's error state.
     throw new Error("API key is not configured. Please check the environment setup.");
   }
