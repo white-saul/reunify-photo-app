@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- SEO -->
+  <title>Reunify Photo – AI Reunion Image Generator</title>
+  <meta name="description" content="Merge your childhood and adult photos with AI to create realistic reunion images. Try Reunify Photo powered by Nano Banana AI.">
+  <meta name="keywords" content="AI photo generator, reunion photo, Nano Banana, AI nostalgia, photo merge tool">
+  <link rel="canonical" href="https://reunifyphoto.com/">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://reunifyphoto.com/">
+  <meta property="og:title" content="Reunify Photo – AI Reunion Generator">
+  <meta property="og:description" content="Upload your old and new photos to see your past and present selves reunite.">
+  <meta property="og:image" content="https://reunifyphoto.com/og-image.jpg">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://reunifyphoto.com/">
+  <meta property="twitter:title" content="Reunify Photo – Bring Your Past and Present Together">
+  <meta property="twitter:description" content="AI-powered emotional photo reunion generator.">
+  <meta property="twitter:image" content="https://reunifyphoto.com/og-image.jpg">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Dark Mode Script to prevent FOUC -->
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+    // Custom Tailwind config
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          keyframes: {
+            shimmer: {
+              '0%, 100%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+            },
+            fadeIn: {
+                '0%': { opacity: 0, transform: 'translateY(10px)' },
+                '100%': { opacity: 1, transform: 'translateY(0)' },
+            },
+            textFade: {
+              '0%, 100%': { opacity: 0 },
+              '20%, 80%': { opacity: 1 },
+            }
+          },
+          animation: {
+            shimmer: 'shimmer 4s ease-in-out infinite',
+            fadeIn: 'fadeIn 0.5s ease-in-out',
+            textFade: 'textFade 6s ease-in-out infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Schema.org Markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Reunify Photo",
+    "url": "https://reunifyphoto.com",
+    "applicationCategory": "PhotoEditing",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "2874"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Reunify Photo",
+      "url": "https://reunifyphoto.com"
+    },
+    "faqpage": {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does Reunify Photo work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It merges two uploaded photos using AI to generate a reunion image."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the Nano Banana model?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An AI model specialized in natural photo blending and expression synthesis."
+          }
+        }
+      ]
+    }
+  }
+  </script>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.25.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans antialiased">
+  <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "name": "Reunify Photo",
+  "description": "Reunify Photo is an AI-powered web app that reunites your past and present selves. Upload old and new photos to generate lifelike AI reunion images using the Nano Banana model.",
+  "requestFramePermissions": []
+}
