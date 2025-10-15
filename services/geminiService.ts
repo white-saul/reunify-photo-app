@@ -1,15 +1,8 @@
-
 import { GoogleGenAI, Modality } from "@google/genai";
 import { fileToBase64 } from '../utils/fileUtils';
 
-// Fix: Per coding guidelines, API key must be retrieved from process.env.API_KEY. This also resolves the TypeScript error on import.meta.env.
-const apiKey = process.env.API_KEY;
-
-if (!apiKey) {
-  // This error will be shown in the browser's console if the variable is not set correctly.
-  throw new Error("API_KEY is not defined. Please check your environment variables.");
-}
-const ai = new GoogleGenAI({ apiKey });
+// Per coding guidelines, API key must be retrieved directly from process.env.API_KEY.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 interface ReunionPhotoParams {
   oldPhoto: File;
@@ -22,6 +15,12 @@ export const generateReunionPhoto = async ({
   newPhoto,
   style,
 }: ReunionPhotoParams): Promise<string> => {
+  // Add a check here to provide a more user-friendly error if the key is missing.
+  if (!process.env.API_KEY) {
+    // This message is user-facing via the UI's error state.
+    throw new Error("API key is not configured. Please check the environment setup.");
+  }
+
   try {
     const oldPhotoBase64 = await fileToBase64(oldPhoto);
     const newPhotoBase64 = await fileToBase64(newPhoto);
@@ -98,9 +97,15 @@ Visual tone:
   } catch (error) {
     console.error("Error generating reunion photo:", error);
     if (error instanceof Error) {
-        // Extracting a cleaner error message if possible
-        const errorDetails = (error as any).cause?.error?.message || error.message;
-        throw new Error(`Failed to generate photo: ${errorDetails}`);
+        // Attempt to parse the message if it's a JSON string for a cleaner display.
+        try {
+            const parsedError = JSON.parse(error.message);
+            const message = parsedError?.error?.message || error.message;
+            throw new Error(`Failed to generate photo: ${message}`);
+        } catch (e) {
+            // If it's not JSON, use the message directly.
+            throw new Error(`Failed to generate photo: ${error.message}`);
+        }
     }
     throw new Error("An unknown error occurred during photo generation.");
   }
